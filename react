@@ -68,6 +68,13 @@ make_html() {
 EOT
 }
 
+make_gitignore() {
+  cat > .gitignore <<EOT
+bundle*
+node_modules
+EOT
+}
+
 if [[ "$1" = "new" ]]; then
   project="$2"
 
@@ -81,6 +88,9 @@ if [[ "$1" = "new" ]]; then
   make_loader $project
   make_entry $project
   make_html $project
+  make_gitignore
 
   webpack --watch
+else
+  echo "react new PROJECT_NAME to create a new React skeleton"
 fi
