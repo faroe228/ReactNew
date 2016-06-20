@@ -1,7 +1,7 @@
 ReactNew
 ======
 
-Generates a React project skeleton. Inspired by `rails new`.
+Generates a React project skeleton. Inspired by the ease of use of `rails new`.
 
 ### Features
 * Installs the following packages:
