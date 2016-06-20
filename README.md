@@ -20,10 +20,14 @@ Generates a React project skeleton. Inspired by `rails new`.
 * Creates folders for `js` and `css`
 * Runs `webpack --watch`
 
-### Instructions
+### Installation
 
 ```bash
 brew tap timhwang21/react
 brew install react
+```
+
+### Usage
+```bash
 react new PROJECT_NAME
 ```
