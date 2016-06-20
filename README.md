@@ -1,4 +1,4 @@
-React-new
+React new
 ======
 
 # Instructions
