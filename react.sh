@@ -1,0 +1,86 @@
+#!/bin/bash
+
+make_loader() {
+  cat > webpack.config.js <<EOT
+module.exports = {
+  context: __dirname,
+  entry: "./${@}.jsx",
+  output: {
+    path: "./",
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      {
+        test: [/\.jsx?$/, /\.js?$/],
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015']
+        }
+      }
+    ]
+  },
+  resolve: {
+    extensions: ["", ".js", ".jsx"]
+  },
+  devtool: 'source-map'
+};
+EOT
+}
+
+make_entry() {
+  cat > ${@}.jsx <<EOT
+'use strict';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+export default class Main extends React.Component {
+
+  render() {
+    return(
+      <div>
+        Hello World
+      </div>
+    );
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(<Main />, document.getElementById('main'));
+});
+EOT
+}
+
+make_html() {
+  cat > index.html <<EOT
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="bundle.js"></script>
+  <title>${@}</title>
+</head>
+<body>
+  <div id="main"></div>
+</body>
+</html>
+EOT
+}
+
+if [[ "$1" = "new" ]]; then
+  project="$2"
+
+  mkdir $project && cd $project
+  mkdir js
+  mkdir css
+
+  npm init --yes
+  npm install --save webpack react react-dom react-router flux babel-core babel-loader babel-preset-react babel-preset-es2015
+
+  make_loader $project
+  make_entry $project
+  make_html $project
+
+  webpack --watch
+fi
